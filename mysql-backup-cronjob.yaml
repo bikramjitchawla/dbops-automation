@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mysql-backup
+spec:
+  schedule: "0 2 * * *"  # Every day at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: mysql-backup
+              image: mysql:5.7  # Backup image can be the same as MySQL
+              command:
+                - /bin/bash
+                - -c
+                - "mysqldump -u root -prootpassword exampledb > /backups/backup-$(date +%F).sql"
+          restartPolicy: OnFailure

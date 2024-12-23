@@ -1,0 +1,11 @@
+apiVersion: skaffold/v4alpha1
+kind: Config
+metadata:
+  name: dbops-automation
+build:
+  artifacts:
+    - image: gcr.io/my-project-id/mysql-db:{{.LATEST_GIT_COMMIT}}-{{.TIMESTAMP}}  # Dynamic tag: Git commit + timestamp
+      docker:
+        dockerfile: Dockerfile
+  local:
+    push: false  
